@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>porcentage circulaire</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .box {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+        background-color: white;
+        width: 400px;
+        height: 400px;
+        box-shadow: 0 5px 25px rgba(1 1 1 / 15%), 0 5px 25px rgba(1 1 1 / 15%);
+      }
+      .percent::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        box-shadow: 0 5px 25px rgba(1 1 1 / 15%);
+      }
+      .percent {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 160px;
+        height: 160px;
+      }
+      .percent::after {
+        content: "";
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        /* background-color: red; */
+        box-shadow: inset 0 5px 25px rgba(1 1 1 / 15%);
+      }
+      .percent svg {
+        position: absolute;
+        width: 160px;
+        height: 160px;
+      }
+      .percent svg circle {
+        position: absolute;
+        width: 160px;
+        height: 160px;
+        fill: none;
+        stroke-width: 20;
+        /* stroke: aqua; */
+        transform: translate(10px, 10px);
+        stroke-dasharray: 440;
+        stroke-dashoffset: 440;
+      }
+      .percent svg circle:nth-child(1) {
+        stroke: white;
+        stroke-dashoffset: 0;
+        /* box-shadow: inset 3px orange; */
+      }
+      .percent svg circle:nth-child(2) {
+        stroke: orangered;
+        stroke-dashoffset: 440;
+        stroke-linecap: round;
+        /* animation: anime 2s linear forwards; */
+      }
+      .percent span {
+        font-size: 20px;
+        color: black;
+        font-weight: bold;
+        margin-right: 5px;
+        text-transform: uppercase;
+      }
+      .terri {
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <div class="percent html">
+        <div class="terri">90</div>
+        <span>Html</span>
+        <svg>
+          <circle cx="70" cy="70" r="70"></circle>
+          <circle cx="70" cy="70" r="70"></circle>
+        </svg>
+      </div>
+      <div class="percent php">
+        <div class="terri">60</div>
+        <span>Php</span>
+        <svg>
+          <circle cx="70" cy="70" r="70"></circle>
+          <circle cx="70" cy="70" r="70"></circle>
+        </svg>
+      </div>
+      <div class="percent css">
+        <div class="terri">80</div>
+        <span>Css</span>
+        <svg>
+          <circle cx="70" cy="70" r="70"></circle>
+          <circle cx="70" cy="70" r="70"></circle>
+        </svg>
+      </div>
+      <div class="percent js">
+        <div class="terri">50</div>
+        <span>Javascript</span>
+        <svg>
+          <circle cx="70" cy="70" r="70"></circle>
+          <circle cx="70" cy="70" r="70"></circle>
+        </svg>
+      </div>
+    </div>
+    <script>
+      const circle2 = document.querySelectorAll(".html svg circle");
+      const html = document.querySelector(".html .terri");
+      anime(circle2, html, "red");
+      const circle1 = document.querySelectorAll(".php svg circle");
+      const php = document.querySelector(".php .terri");
+      anime(circle1, php, "green");
+      const circle3 = document.querySelectorAll(".css svg circle");
+      const css = document.querySelector(".css .terri");
+      anime(circle3, css, "BlueViolet");
+      const circle4 = document.querySelectorAll(".js svg circle");
+      const js = document.querySelector(".js .terri");
+      anime(circle4, js, "blue");
+      function anime(circle2, terri, color) {
+        var percent = terri.innerHTML;
+        var raduis = circle2[1].r.baseVal.value;
+        var perimetre = 2 * (Math.PI * raduis);
+        circle2[1].style.strokeDashoffset = perimetre;
+        var count = perimetre - (perimetre * percent) / 100;
+        var diff = perimetre - count;
+        setInterval(() => {
+          if (Math.trunc(perimetre) === Math.trunc(count)) {
+            clearInterval();
+          } else {
+            circle2[1].style.strokeDashoffset = perimetre;
+            circle2[1].style.stroke = color;
+            perimetre = perimetre - diff / percent;
+          }
+        }, 1500 / percent);
+        var nisba = 0;
+        setInterval(() => {
+          terri.innerHTML = nisba + "%";
+          terri.style.color = color;
+
+          if (nisba == percent) {
+            clearInterval();
+          } else {
+            nisba++;
+          }
+        }, 1500 / percent);
+      }
+    </script>
+  </body>
+</html>
